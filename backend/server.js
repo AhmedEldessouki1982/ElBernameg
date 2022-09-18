@@ -2,8 +2,12 @@ import express from 'express';
 import cors from 'cors';
 import { userRoute } from './routes/routes.js';
 const app = express();
+import Connect from './db/DBconnect.js';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
-const port = 8000;
+const port = process.env.backEndPort || 8080;
+// const port = 8000;
 
 //middleware for using json
 app.use (
@@ -30,7 +34,21 @@ app.use(
 );
 
 
-//define the port that the server will listen to it
-app.listen (
-    port, console.log(`Server up & running listening to port ${port} :)`)
-);
+//connect db and start server function
+let start = async () => {
+    try {
+        await Connect(process.env.connectionString)
+        app.listen (
+            port, console.log(`Server up & running listening to port ${port} :)`)
+        )
+    }
+    catch (err) {
+        console.log(err);
+    }
+}
+start();
+
+// //define the port that the server will listen to it
+// app.listen (
+//     port, console.log(`Server up & running listening to port ${port} :)`)
+// );
