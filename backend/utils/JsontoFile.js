@@ -8,7 +8,6 @@ import fs from 'fs';
 //this function take json format and save to file in the local disk
 export default function JsonToFile (json) {
     var jsonContent = JSON.stringify(json);
-    console.log(jsonContent);
 
     fs.writeFile("output.json", jsonContent, 'utf8', function (err) {
     if (err) 

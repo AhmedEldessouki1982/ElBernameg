@@ -1,4 +1,5 @@
-import JsonToFile from "../utils/JsontoFile.js"
+import JsonToFile from "../utils/JsontoFile.js";
+import { theSchema } from "../models/ActivitiesSchema.js";
 
 //get req
 export const getAllActivities = (req,res)=> {
@@ -7,11 +8,16 @@ export const getAllActivities = (req,res)=> {
     )
 }
 //post req
-export const pushAllActivities = (req,res)=> {
-    res.json (
-        req.body
-    )
-    JsonToFile (req.body)
+export const pushAllActivities = async(req,res)=> {
+    let activities = await theSchema.create (req.body[0]);
+    // console.log(req.body);
+
+    res.status(200).json({activities})
+    // res.json (
+    //     {activities}
+    // )
+    console.log(activities);
+    // JsonToFile (req.body)
 }
 //get with qurey 
 export const getActivity = (req,res)=> {

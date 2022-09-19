@@ -72,7 +72,7 @@ export default function Activity() {
                 {activity}
             ).then (
                 res => {
-                    //console.log(`data pushed to the backend ${res.statusText}`);
+                    console.log(`data pushed to the backend ${res.statusText}`);
                 }
             )
         //axios post/push req code end here...
