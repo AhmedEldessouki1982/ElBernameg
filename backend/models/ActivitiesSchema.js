@@ -7,10 +7,10 @@ let model =
     scope: String,
     Responsibility: String,
     timing: String,
+    createdAt: String
 };
 
 let Activityschema = new mongoose.Schema (model);
-
 export const theSchema = mongoose.model (
     'List-Of-All-Commissioning-Activities',
     Activityschema

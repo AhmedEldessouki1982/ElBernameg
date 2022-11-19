@@ -1,29 +1,37 @@
-import JsonToFile from "../utils/JsontoFile.js";
 import { theSchema } from "../models/ActivitiesSchema.js";
 
 //get req
-export const getAllActivities = (req,res)=> {
-    res.json (
-        "send all activities from srvr to frontend"
-    )
+export const getAllActivities = async (req,res)=> {
+    try {
+        let activities = await theSchema.find ({});
+        res.status(200).json({...activities});
+        !activities && res.status(404).json({msg: "No activities found stored in the MongoDB"});
+    } catch (error) {
+        res.status(500).json({msg: error});
+    }
 }
-//post req
-export const pushAllActivities = async(req,res)=> {
-    let activities = await theSchema.create (req.body[0]);
-    // console.log(req.body);
 
-    res.status(200).json({activities})
-    // res.json (
-    //     {activities}
-    // )
-    console.log(activities);
-    // JsonToFile (req.body)
+//post req
+export const pushAllActivities = async (req,res)=> {
+    try {
+        let activities = req.body;
+        await theSchema.create ([...activities.activity]);
+        console.log("Data uploaded successfully...");
+
+    } catch (error) {
+        res.status(500).json({msg: error});
+    }
+
+
 }
-//get with qurey 
-export const getActivity = (req,res)=> {
-    res.json (
-        {id: req.params.id}
-    )
+//get with qurey "get activity by id"
+export const getActivity = async(req,res)=> {
+    try {
+        let activity = await theSchema.findOne({_id:req.params.id});
+        res.status(200).json({activity});
+    } catch (error) {
+        res.status(500).json({msg: error});
+    }
 }
 //patch req
 export const updateAllActivities = (req,res)=> {

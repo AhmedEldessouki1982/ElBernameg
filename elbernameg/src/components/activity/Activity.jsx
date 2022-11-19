@@ -60,12 +60,14 @@ export default function Activity() {
                     scope: state.scope,
                     Responsibility: state.person,
                     timing: state.timeStamp,
+                    createdAt: new Date().toISOString()
                 }
             ]
         )
     }
 
     let uploadingHandler = () => {
+        
         //axios post/push req code start here...
             axios.post (
                 "http://localhost:8000/api/json/activities",
