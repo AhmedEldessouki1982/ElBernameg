@@ -1,5 +1,9 @@
-import React from 'react'
-import '../activity/activity.scss';
+import React from 'react';
+// import '../activity/activity.scss';
+//mui setup
+import { Box, useTheme } from '@mui/system';
+import {tokens} from '../themes/themes';
+//
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusSquare, faUpload } from "@fortawesome/free-solid-svg-icons";
 import ToggleButton from '@mui/material/ToggleButton';
@@ -22,6 +26,7 @@ let initState = {
     description: ""
 }
 
+
 let reducer = (state, action) => {
     switch (action.type) {
         case 'setDiscipline':
@@ -40,6 +45,10 @@ let reducer = (state, action) => {
 }
 
 export default function Activity() {
+
+    //mui setup
+    const theme = useTheme();
+    const colors = tokens (theme.palette.mode);
 
     const [state , dispatch] = React.useReducer (reducer, initState);
     let [activity , setActivity] = React.useState ([]);
@@ -87,11 +96,33 @@ export default function Activity() {
         activity,
         setActivity,
     }
+
   return (
-    <div className='activity__container'> 
-        <div className='input__field'>
+    <Box 
+    display = {"flex"}
+    flexDirection = {"column"}
+    alignItems = {"center"}
+    padding = {"5px"}>
+
+        <Box
+        display = {"flex"}
+        alignItems = {"center"}
+        flexDirection = {"row"}
+        width = {"90%"}
+        height = {"10rem"}
+        sx = {{
+            backgroundColor: colors.primary[500]
+        }} >
             {/*Toggle controller starts here */}  
-            <div className='toggle__controllers'>
+            <Box 
+            display = {"flex"}
+            flexDirection = {"column"}
+            padding = {"5px"}
+            gap = {"3px"}
+            justifyContent = {"center"}
+            alignItems = {"center"}
+            >
+            
                 <ToggleButtonGroup
                     color= 'warning'
                     value={state.discipline}
@@ -108,7 +139,7 @@ export default function Activity() {
                 </ToggleButtonGroup>
 
                 <ToggleButtonGroup
-                    color= 'primary'
+                    color = 'warning'
                     value={state.scope}
                     exclusive
                     onChange={
@@ -120,10 +151,12 @@ export default function Activity() {
                     <ToggleButton value="sag">SAG</ToggleButton>
                     <ToggleButton value="esp">ESP</ToggleButton>
                 </ToggleButtonGroup>
-            </div>
+            </Box>
             {/*User text filed starts here */}  
             <TextField
-            color= 'primary'
+            sx = {{
+
+            }}
             fullWidth = {true}
             id="outlined-multiline-static"
             label={`${state.scope}/${state.discipline}`}
@@ -140,7 +173,7 @@ export default function Activity() {
                 <FontAwesomeIcon icon= {faPlusSquare} onClick= {setActivityHandler} />
                 <FontAwesomeIcon icon= {faUpload} onClick= {uploadingHandler} />
             </div>
-        </div>
+        </Box>
         {/*Time picker section starts here */}
         <div className="activity__stackHolders">
             <TimePicker 
@@ -174,6 +207,6 @@ export default function Activity() {
         <ActivityContext activityPropsValue = {activityContextValue}>
             <Table data = {activity} />
         </ActivityContext>
-    </div>
+    </Box>
   )
 }
